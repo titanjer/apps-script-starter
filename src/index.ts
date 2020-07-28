@@ -1,8 +1,10 @@
 import doGet from './server/webapp';
 import './es6';
 
+// @ts-ignore
 global.doGet = doGet;
 
+// @ts-ignore
 global.sendmail = (email = Session.getActiveUser().getEmail()) => {
   const htmlBody = `
     <p>This email was sent using the <a href="https://www.labnol.org/internet/google-apps-script-developers/32305/">Apps Script Starter</a></p>

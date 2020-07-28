@@ -8,6 +8,7 @@
  */
 
 const path = require('path');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GasPlugin = require('gas-webpack-plugin');
@@ -20,7 +21,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   mode: isProduction ? 'production' : 'none',
   context: __dirname,
-  entry: `${src}/index.js`,
+  entry: `${src}/index.ts`,
   output: {
     filename: `code.[contentHash].js`,
     path: destination,
@@ -35,7 +36,6 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           ecma: 6,
-          warnings: false,
           mangle: {},
           compress: {
             drop_console: false,
@@ -50,6 +50,10 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'awesome-typescript-loader'
+      },
       {
         enforce: 'pre',
         test: /\.js$/,
@@ -71,6 +75,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new CheckerPlugin(),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
